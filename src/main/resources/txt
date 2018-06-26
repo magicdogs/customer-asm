@@ -1,0 +1,161 @@
+package asm.org.ff4j.sample.asm;
+
+import java.util.*;
+
+import org.objectweb.asm.*;
+
+public class TestInterceptorDump implements Opcodes {
+
+    public static byte[] dump() throws Exception {
+
+        ClassWriter cw = new ClassWriter(0);
+        FieldVisitor fv;
+        MethodVisitor mv;
+        AnnotationVisitor av0;
+
+        cw.visit(52, ACC_PUBLIC + ACC_SUPER, "org/ff4j/sample/asm/TestInterceptor", null, "java/lang/Object", null);
+
+        cw.visitSource("TestInterceptor.java", null);
+
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+            mv.visitCode();
+            Label l0 = new Label();
+            mv.visitLabel(l0);
+            mv.visitLineNumber(6, l0);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+            mv.visitInsn(RETURN);
+            Label l1 = new Label();
+            mv.visitLabel(l1);
+            mv.visitLocalVariable("this", "Lorg/ff4j/sample/asm/TestInterceptor;", null, l0, l1, 0);
+            mv.visitMaxs(1, 1);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "test", "(Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/String;", null, null);
+            mv.visitCode();
+            Label l0 = new Label();
+            Label l1 = new Label();
+            Label l2 = new Label();
+            mv.visitTryCatchBlock(l0, l1, l2, "java/lang/Throwable");
+            Label l3 = new Label();
+            mv.visitTryCatchBlock(l0, l1, l3, null);
+            Label l4 = new Label();
+            mv.visitTryCatchBlock(l2, l4, l3, null);
+            Label l5 = new Label();
+            mv.visitLabel(l5);
+            mv.visitLineNumber(10, l5);
+            mv.visitInsn(ACONST_NULL);
+            mv.visitVarInsn(ASTORE, 3);
+            Label l6 = new Label();
+            mv.visitLabel(l6);
+            mv.visitLineNumber(11, l6);
+            mv.visitInsn(ACONST_NULL);
+            mv.visitVarInsn(ASTORE, 4);
+            Label l7 = new Label();
+            mv.visitLabel(l7);
+            mv.visitLineNumber(12, l7);
+            mv.visitInsn(ICONST_2);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Object");
+            mv.visitVarInsn(ASTORE, 5);
+            Label l8 = new Label();
+            mv.visitLabel(l8);
+            mv.visitLineNumber(13, l8);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitInsn(ICONST_0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitInsn(AASTORE);
+            Label l9 = new Label();
+            mv.visitLabel(l9);
+            mv.visitLineNumber(14, l9);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitInsn(ICONST_1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitInsn(AASTORE);
+            Label l10 = new Label();
+            mv.visitLabel(l10);
+            mv.visitLineNumber(15, l10);
+            mv.visitInsn(ICONST_1);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
+            mv.visitMethodInsn(INVOKESTATIC, "org/ff4j/sample/asm/interceptor/RegisterInterceptor", "getInterceptor", "(Ljava/lang/Integer;)Lorg/ff4j/sample/asm/interceptor/Interceptor;", false);
+            mv.visitVarInsn(ASTORE, 6);
+            Label l11 = new Label();
+            mv.visitLabel(l11);
+            mv.visitLineNumber(16, l11);
+            mv.visitVarInsn(ALOAD, 6);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitMethodInsn(INVOKEINTERFACE, "org/ff4j/sample/asm/interceptor/Interceptor", "before", "([Ljava/lang/Object;)V", true);
+            mv.visitLabel(l0);
+            mv.visitLineNumber(18, l0);
+            mv.visitTypeInsn(NEW, "java/lang/StringBuilder");
+            mv.visitInsn(DUP);
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/Object;)Ljava/lang/StringBuilder;", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false);
+            mv.visitVarInsn(ASTORE, 3);
+            Label l12 = new Label();
+            mv.visitLabel(l12);
+            mv.visitLineNumber(19, l12);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/String", "valueOf", "(Ljava/lang/Object;)Ljava/lang/String;", false);
+            mv.visitVarInsn(ASTORE, 7);
+            mv.visitLabel(l1);
+            mv.visitLineNumber(24, l1);
+            mv.visitVarInsn(ALOAD, 6);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEINTERFACE, "org/ff4j/sample/asm/interceptor/Interceptor", "after", "([Ljava/lang/Object;Ljava/lang/Throwable;Ljava/lang/Object;)V", true);
+            Label l13 = new Label();
+            mv.visitLabel(l13);
+            mv.visitLineNumber(19, l13);
+            mv.visitVarInsn(ALOAD, 7);
+            mv.visitInsn(ARETURN);
+            mv.visitLabel(l2);
+            mv.visitLineNumber(20, l2);
+            mv.visitFrame(Opcodes.F_FULL, 7, new Object[]{"org/ff4j/sample/asm/TestInterceptor", "java/lang/String", "java/lang/Integer", "java/lang/Object", "java/lang/Throwable", "[Ljava/lang/Object;", "org/ff4j/sample/asm/interceptor/Interceptor"}, 1, new Object[]{"java/lang/Throwable"});
+            mv.visitVarInsn(ASTORE, 7);
+            Label l14 = new Label();
+            mv.visitLabel(l14);
+            mv.visitLineNumber(21, l14);
+            mv.visitVarInsn(ALOAD, 7);
+            mv.visitVarInsn(ASTORE, 4);
+            Label l15 = new Label();
+            mv.visitLabel(l15);
+            mv.visitLineNumber(22, l15);
+            mv.visitVarInsn(ALOAD, 7);
+            mv.visitInsn(ATHROW);
+            mv.visitLabel(l3);
+            mv.visitLineNumber(24, l3);
+            mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{"java/lang/Throwable"});
+            mv.visitVarInsn(ASTORE, 8);
+            mv.visitLabel(l4);
+            mv.visitVarInsn(ALOAD, 6);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEINTERFACE, "org/ff4j/sample/asm/interceptor/Interceptor", "after", "([Ljava/lang/Object;Ljava/lang/Throwable;Ljava/lang/Object;)V", true);
+            mv.visitVarInsn(ALOAD, 8);
+            mv.visitInsn(ATHROW);
+            Label l16 = new Label();
+            mv.visitLabel(l16);
+            mv.visitLocalVariable("throwable", "Ljava/lang/Throwable;", null, l14, l3, 7);
+            mv.visitLocalVariable("this", "Lorg/ff4j/sample/asm/TestInterceptor;", null, l5, l16, 0);
+            mv.visitLocalVariable("name", "Ljava/lang/String;", null, l5, l16, 1);
+            mv.visitLocalVariable("age", "Ljava/lang/Integer;", null, l5, l16, 2);
+            mv.visitLocalVariable("m_result", "Ljava/lang/Object;", null, l6, l16, 3);
+            mv.visitLocalVariable("m_throws", "Ljava/lang/Throwable;", null, l7, l16, 4);
+            mv.visitLocalVariable("args", "[Ljava/lang/Object;", null, l8, l16, 5);
+            mv.visitLocalVariable("interceptor", "Lorg/ff4j/sample/asm/interceptor/Interceptor;", null, l11, l16, 6);
+            mv.visitMaxs(4, 9);
+            mv.visitEnd();
+        }
+        cw.visitEnd();
+
+        return cw.toByteArray();
+    }
+}
