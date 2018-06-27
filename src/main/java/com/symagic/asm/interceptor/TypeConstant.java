@@ -1,5 +1,6 @@
 package com.symagic.asm.interceptor;
 
+import com.symagic.asm.attachment.AttachmentAccess;
 import org.objectweb.asm.Type;
 
 import java.lang.reflect.Method;
@@ -18,21 +19,26 @@ import java.lang.reflect.Method;
 public enum TypeConstant {
 
     REGISTER_INTERCEPTOR(RegisterInterceptor.class),
-    REGISTER_INTERCEPTOR_GET_INTERCEPTOR_METHOD(RegisterInterceptor.class,"getInterceptor",new Class[]{Integer.class}),
+    REGISTER_INTERCEPTOR_GET_INTERCEPTOR_METHOD(RegisterInterceptor.class,"getInterceptor",ClassConstant.GET_INTERCEPTOR_METHOD_PARAMETER_CLASS),
     INTERCEPTOR(Interceptor.class),
-    INTERCEPTOR_BEFORE_METHOD(Interceptor.class,"before",new Class[]{Object.class,String.class,Object[].class}),
-    INTERCEPTOR_AFTER_METHOD(Interceptor.class,"after",new Class[]{Object.class,String.class,Object[].class,Throwable.class,Object.class}),
+    INTERCEPTOR_BEFORE_METHOD(Interceptor.class,"before",ClassConstant.BEFORE_METHOD_PARAMETER_CLASS),
+    INTERCEPTOR_AFTER_METHOD(Interceptor.class,"after",ClassConstant.AFTER_METHOD_PARAMETER_CLASS),
     OBJECT(Object.class),
     OBJECT_ARRAY_ONE(Object[].class),
     INTEGER(Integer.class),
-    INTEGER_VALUE_OF_BOXING_METHOD(Integer.class,"valueOf",new Class[]{int.class}),
-    INTEGER_VALUE_OF_UNBOXING_METHOD(Integer.class,"intValue",new Class[]{}),
-    THROWABLE(Throwable.class);
+    INTEGER_VALUE_OF_BOXING_METHOD(Integer.class,"valueOf",ClassConstant.VALUE_OF_METHOD_PARAMETER_CLASS),
+    INTEGER_VALUE_OF_UNBOXING_METHOD(Integer.class,"intValue",ClassConstant.EMPTY_PARAMETER_CLASS),
+    THROWABLE(Throwable.class),
+    ATTACHMENT_ACCESS(AttachmentAccess.class),
+    ATTACHMENT_ACCESS_SET_ATTACHMENT_METHOD(AttachmentAccess.class,"setAttachment",ClassConstant.SET_ATTACHMENT_METHOD_PARAMETER_CLASS),
+    ATTACHMENT_ACCESS_GET_ATTACHMENT_METHOD(AttachmentAccess.class,"getAttachment",ClassConstant.EMPTY_PARAMETER_CLASS);
 
     private Type type;
     private String descriptor;
     private String internalName;
     private String methodName;
+
+
 
     TypeConstant(Class clz){
         this.type = Type.getType(clz);

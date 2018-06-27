@@ -1,9 +1,11 @@
 package com.symagic.asm.attachment;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import com.symagic.asm.interceptor.TypeConstant;
+import org.objectweb.asm.*;
+
+import static com.symagic.asm.interceptor.TypeConstant.ATTACHMENT_ACCESS;
+import static com.symagic.asm.interceptor.TypeConstant.ATTACHMENT_ACCESS_GET_ATTACHMENT_METHOD;
+import static com.symagic.asm.interceptor.TypeConstant.ATTACHMENT_ACCESS_SET_ATTACHMENT_METHOD;
 
 /**
  * @author magic
@@ -14,29 +16,34 @@ import org.objectweb.asm.Opcodes;
 public class AttachmentAsmCreator implements Opcodes{
     
     public static void makeAttachByteCode(ClassVisitor cv, String clzName){
+
         {
-            MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "setAttachment", "(Ljava/lang/Object;)V", null, null);
+            MethodVisitor mv = cv.visitMethod(ACC_PUBLIC,
+                    ATTACHMENT_ACCESS_SET_ATTACHMENT_METHOD.getMethodName(),
+                    ATTACHMENT_ACCESS_SET_ATTACHMENT_METHOD.getDescriptor(), null, null);
             mv.visitCode();
             Label l0 = new Label();
             mv.visitLabel(l0);
             mv.visitVarInsn(ALOAD, 0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitFieldInsn(PUTFIELD, clzName, "attach", "Ljava/lang/Object;");
+            mv.visitFieldInsn(PUTFIELD, clzName, "attach", TypeConstant.OBJECT.getDescriptor());
             mv.visitInsn(RETURN);
             Label l1 = new Label();
             mv.visitLabel(l1);
             mv.visitLocalVariable("this", "L"+ clzName +";", null, l0, l1, 0);
-            mv.visitLocalVariable("attach", "Ljava/lang/Object;", null, l0, l1, 1);
+            mv.visitLocalVariable("attach", TypeConstant.OBJECT.getDescriptor(), null, l0, l1, 1);
             mv.visitMaxs(2, 2);
             mv.visitEnd();
         }
         {
-            MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getAttachment", "()Ljava/lang/Object;", null, null);
+            MethodVisitor mv = cv.visitMethod(ACC_PUBLIC,
+                    ATTACHMENT_ACCESS_GET_ATTACHMENT_METHOD.getMethodName(),
+                    ATTACHMENT_ACCESS_GET_ATTACHMENT_METHOD.getDescriptor(), null, null);
             mv.visitCode();
             Label l0 = new Label();
             mv.visitLabel(l0);
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, clzName, "attach", "Ljava/lang/Object;");
+            mv.visitFieldInsn(GETFIELD, clzName, "attach", TypeConstant.OBJECT.getDescriptor());
             mv.visitInsn(ARETURN);
             Label l1 = new Label();
             mv.visitLabel(l1);
@@ -49,12 +56,12 @@ public class AttachmentAsmCreator implements Opcodes{
     public static String[] makeInterfaces(String[] interfaces) {
         String nJoin = String.join(",",
                 String.join(",",interfaces),
-                "com/symagic/asm/attachment/AttachmentAccess");
+                ATTACHMENT_ACCESS.getInternalName());
         return nJoin.split(",");
     }
 
     public static void makeFieldByteCode(ClassVisitor cv) {
-        cv.visitField(ACC_PUBLIC,"attach","Ljava/lang/Object;",null,null);
+        cv.visitField(ACC_PUBLIC,"attach",TypeConstant.OBJECT.getDescriptor(),null,null);
     }
 
 }
